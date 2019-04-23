@@ -11,8 +11,10 @@ header{
   margin: 20px;
 }
 
-main {
+#main, footer {
   text-align: center;
+  display: block;
+  z-index: 1;
 }
 
 
@@ -42,11 +44,20 @@ main {
 /******/
 #controls {
   text-align:center;
-  border: 1px solid red;
+  border: 0px solid red;
+}
+
+#imgContainer {
+  position: relative;
+  display: block;
+  width: 100%;
+  background-color: green;
+  text-align: center;
 }
 
 #imgContainer img {
-  position:absolute;
+  text-align: center;
+  position: absolute;
   left:0;
   -webkit-transition: opacity 1s ease-in-out;
   -moz-transition: opacity 1s ease-in-out;
@@ -61,4 +72,16 @@ main {
   opacity:1;
   -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: alpha(opacity=1);
+}
+
+/**** drawings */
+
+#DemoCanvas {
+  position: absolute;
+  box-sizing: border-box;
+}
+
+canvas{
+  z-index: -1;
+  background-color: burlywood;
 }
