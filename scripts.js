@@ -10,9 +10,6 @@ function Flare(srcEl, trgEl) {
       this.trgEl.position().left + "," +
       this.trgEl.position().top + ")"
     );
-
-
-
   }
 
   this.update = function() {
@@ -22,95 +19,98 @@ function Flare(srcEl, trgEl) {
   }
 }
 
-window.addEventListener('resize', function(event) {
-  // UPDATE THE DRAWINGS AND POSITIONINGS
-  position();
-});
+$( document ).ready(function() {
 
-function position() {
-  // resize the canvas area;
-  var c = document.getElementById("myCanvas");
-  // POSITION THE SVAN
-  var x = (window.innerWidth / 2) - ($("#imgContainer>img").eq(0).width() / 2);
-  $("#imgContainer").css({
-    left: x
+  window.addEventListener('resize', function(event) {
+    // UPDATE THE DRAWINGS AND POSITIONINGS
+    position();
   });
-}
 
-// find elements
-var canvas = $("canvas");
-//console.log("canvas width:" + canvas.width);
-var c = document.getElementById("myCanvas");
-c.width = window.innerWidth;
-c.height = window.innerHeight;
-console.log(c);
-
-ctx = c.getContext("2d");
-
-/************/
-var x = 100;
-var y = 100;
-var dx = 0.5;
-var dy = 1;
-var radius = 50
-
-function animate() {
-
-  requestAnimationFrame(animate);
-  ctx.clearRect(0, 0, innerWidth, innerHeight);
-  ctx.beginPath();
-  ctx.arc(x, y, radius, 0, 2 * Math.PI);
-  //ctx.strokeStyle = '#20B2AA';
-  //ctx.stroke(); 
-  ctx.fillStyle = 'rgba(95, 158, 160, 0.8)';
-  ctx.fill();
-
-  if (x + radius > window.innerWidth || x - radius < 0) {
-    dx = -dx;
+  function position() {
+    // resize the canvas area;
+    var c = document.getElementById("myCanvas");
+    // POSITION THE SVAN
+    var x = (window.innerWidth / 2) - ($("#imgContainer>img").eq(0).width() / 2);
+    $("#imgContainer").css({
+      left: x
+    });
   }
-  x += dx;
-  //y += dy;
-}
 
-animate();
+  // find elements
+  var canvas = $("canvas");
+  //console.log("canvas width:" + canvas.width);
+  var c = document.getElementById("myCanvas");
+  c.width = window.innerWidth;
+  c.height = window.innerHeight;
+  console.log(c);
 
+  ctx = c.getContext("2d");
 
-$("#controls").on('mouseover', 'div', function() {
-  console.log('mouse-over');
-  $("#imgContainer img").removeClass("opaque");
-  var imageIdx = $(this).index() + 1;
-  $("#imgContainer img").eq(imageIdx).addClass("opaque")
+  /************/
+  var x = 100;
+  var y = 100;
+  var dx = 0.5;
+  var dy = 1;
+  var radius = 50
 
-  // starte the flare
-  var flare = new Flare($(this), $("#imgContainer"));
-  flare.draw();
+  function animate() {
 
-});
+    requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, 2 * Math.PI);
+    //ctx.strokeStyle = '#20B2AA';
+    //ctx.stroke(); 
+    ctx.fillStyle = 'rgba(95, 158, 160, 0.8)';
+    ctx.fill();
 
-$("#controls").on('mouseout', 'div', function() {
-
-  $("#imgContainer img").removeClass("opaque");
-  $("#imgContainer img").eq(0).addClass("opaque");
-  //clearCanvas();
-  $("header").html("HEADER");
-});
-
-position();
-
-var bezier_params = {
-  start: {
-    x: 0,
-    y: 0,
-    angle: 10
-  },
-  end: {
-    x: 200,
-    y: 300,
-    angle: -10,
-    length: 0.25
+    if (x + radius > window.innerWidth || x - radius < 0) {
+      dx = -dx;
+    }
+    x += dx;
+    //y += dy;
   }
-}
 
-$("#palma").animate({
-  path: new $.path.bezier(bezier_params)
+  animate();
+
+
+  $("#controls").on('mouseover', 'div', function() {
+    console.log('mouse-over');
+    $("#imgContainer img").removeClass("opaque");
+    var imageIdx = $(this).index() + 1;
+    $("#imgContainer img").eq(imageIdx).addClass("opaque")
+
+    // starte the flare
+    var flare = new Flare($(this), $("#imgContainer"));
+    flare.draw();
+  });
+
+  $("#controls").on('mouseout', 'div', function() {
+
+    $("#imgContainer img").removeClass("opaque");
+    $("#imgContainer img").eq(0).addClass("opaque");
+    //clearCanvas();
+    $("header").html("HEADER");
+  });
+
+  position();
+
+  var bezier_params = {
+    start: {
+      x: 0,
+      y: 0,
+      angle: 10
+    },
+    end: {
+      x: 200,
+      y: 300,
+      angle: -10,
+      length: 0.25
+    }
+  }
+
+  $("#palma").animate({
+    path: new $.path.bezier(bezier_params)
+  });
+  
 });
