@@ -94,23 +94,5 @@ $( document ).ready(function() {
   });
 
   position();
-
-  var bezier_params = {
-    start: {
-      x: 0,
-      y: 0,
-      angle: 10
-    },
-    end: {
-      x: 200,
-      y: 300,
-      angle: -10,
-      length: 0.25
-    }
-  }
-
-  $("#palma").animate({
-    path: new $.path.bezier(bezier_params)
-  });
   
 });
