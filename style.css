@@ -1,27 +1,27 @@
 body {
   background: white;
   padding: 0px;
-  margin: 2px;
+  margin: 0px;
   font-family: Helvetica;
 }
 
 header {
+  z-index: 1;
   margin: 0px;
   padding: 0px;
-  background-color: Gainsboro;
-  height: 50px;
+  position: sticky;
 }
 
-header>img {
-  z-index: 100;
-  display: inline;
-  width: 20px;
-  height: 20px;
+header>img {  
+  z-index: 2;
+  padding: 10px;
 }
 
 canvas {
-  /*background-color: lightgray;*/
-  z-index: -2;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  z-index: 0;
 }
 
 dotContainer {
@@ -34,31 +34,36 @@ dotContainer {
   text-align: center;
   display: inline-block;
   border: none;
-  border-radius: 50%;
+  border-radius: 2%;
   font-size: 15px;
-  color: #fff;
   height: 100px;
   width: 100px;
   cursor: pointer;
-  opacity: 0.8;
+  opacity: 1;
 }
 
 #palma {
-  top: 50px;
+  top: 10%;
   left: 10%;
-  background: DarkCyan;
+  background: indianred;
 }
 
 #eam {
-  top: 200px;
+  top: 50px;
   right: 10%;
-  background: LightSeaGreen;
+  background: rgb(132, 196, 192);
 }
 
-#ha {
+#btb {
   top: 300px;
-  left: 20%;
-  background: DodgerBlue;
+  right: 20%;
+  background: rgb(134, 117, 167);
+}
+
+#coinrattler {
+  top: 500px;
+  right: 15%;
+  background: rgb(122, 149, 177);
 }
 
 #imgContainer {
@@ -67,11 +72,11 @@ dotContainer {
   left: 0px;
   display: block;
   width: 100%;
-  background-color: green;
+  /*background-color: green;*/
   text-align: center;
 }
 
-#imgContainer img {
+#imgContainer > img {
   text-align: center;
   position: absolute;
   left: 0;
@@ -84,13 +89,13 @@ dotContainer {
   filter: alpha(opacity=0);
 }
 
-#imgContainer img.opaque {
+#imgContainer > img.opaque {
   opacity: 1;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: alpha(opacity=1);
 }
 
-img {
+#imgContainer > img {
   border: 0px solid silver;
   width: 200px;
   height: 200px;
@@ -104,7 +109,7 @@ img {
   filter: alpha(opacity=0);
 }
 
-img.opaque {
+#imgContainer > img.opaque {
   opacity: 1;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: alpha(opacity=1);
