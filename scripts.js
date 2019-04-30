@@ -10,8 +10,13 @@ function Flare(srcEl, trgEl) {
     var stage;
     var tweens;
     var activeCount;
-    var circleCount = 5;
-    var text;
+    var circleCount = 20;
+    //var colors = ["BlueViolet", "MediumSeaGreen", "Tomato", "DarkTurquoise", "DeepSkyBlue"];
+    var colors = ["CornflowerBlue", "DodgerBlue", "DeepSkyBlue", "LightSkyBlue", "LightBlue"];
+
+    this.getColor = function (i){
+        return colors[i % colors.length];
+    }
 
     this.draw = function () {
         // at the end draw
@@ -35,23 +40,33 @@ function Flare(srcEl, trgEl) {
         stage.enableDOMEvents(true);
         tweens = [];
         stage.enableMouseOver(10);
+
         createjs.Touch.enable(stage);
         
         for (var i = 0; i < circleCount; i++) {
             // draw the circle, and put it on stage:
             var circle = new createjs.Shape();
-            circle.graphics.setStrokeStyle(20);
+            var isZero = (parseInt(Math.random() * 10) % 2 == 0);
+            //console.log(isZero);
+            var h = isZero?20: 20;
+            var w = isZero?10: 1;
+            
+            var squarSize = parseInt(Math.random() * 50);
+            circle.graphics.setStrokeStyle(1);
             //circle.graphics.beginStroke("#113355");
-            circle.graphics.beginStroke(this.srcEl.css("background-color"));
+            //circle.graphics.beginStroke(this.srcEl.css("background-color"));
             //circle.graphics.drawCircle(this.trgCentreX, this.trgCentreY, (i + 1) * 9);
-            circle.graphics.drawRect(this.trgCentreX, this.trgCentreY, (i + 1) * 9, (i + 1) * 9)
-            circle.alpha = 0.5 - (i * 0.02);
-            circle.x = Math.random() * 300;
-            circle.y = Math.random() * 300;
+            //console.log( this.srcEl.css("background-color"));
+            //circle.graphics.beginFill(this.srcEl.css("background-color"));
+            circle.graphics.beginFill(this.getColor(i));
+            circle.graphics.drawRect(this.trgCentreX, this.trgCentreY, squarSize, squarSize);
+            circle.alpha = 0.2; //- (i * 0.02);
+            circle.x = Math.random() * 700;
+            circle.y = Math.random() * 700;
             circle.compositeOperation = "lighter";
     
             var tween = createjs.Tween.get(circle)
-            .to({x: this.srcCentreXRel, y: this.srcCentreYRel}, (0.5 + i * 0.04) * 2000, createjs.Ease.bounceOut)
+            .to({x: this.srcCentreXRel, y: this.srcCentreYRel}, (0.5 + i * 0.04) * 3000, createjs.Ease.bounceOut)
             .wait(100)
             //.to({alpha: 0})
             .call(this.tweenComplete)
@@ -86,7 +101,6 @@ window.addEventListener('resize', function (event) {
 });
 
 function clearCanvas(){
-    console.log("clear canvas");
     const canvas = document.getElementById("myCanvas");
     const context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -135,6 +149,10 @@ $(document).ready(function () {
         var imageIdx = $(this).index() + 1;
         $("#imgContainer>img").eq(imageIdx).addClass("opaque")
 
+        //$("#imgContainer>img").removeClass("opaque");
+        //var imageIdx = $(this).index();
+        //$("#controls>.dot").eq(imageIdx).addClass("hover")
+
         // start the flare
         var svanImg = $("#imgContainer");
         var flare = new Flare($(this), svanImg );
@@ -143,8 +161,10 @@ $(document).ready(function () {
     });
 
     $("#controls").on('mouseout', 'div', function () {
-        $("#imgContainer img").removeClass("opaque");
-        $("#imgContainer img").eq(0).addClass("opaque");
+        $("#imgContainer > img").removeClass("opaque");
+        $("#imgContainer > img").eq(0).addClass("opaque");
+
+        //$("#controls>.dot").removeClass("hover")
         clearCanvas();       
     });
 
