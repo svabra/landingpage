@@ -39,26 +39,26 @@ function Flare(srcEl, trgEl) {
         
         for (var i = 0; i < circleCount; i++) {
             // draw the circle, and put it on stage:
-            var shape = new createjs.Shape();
-            shape.graphics.setStrokeStyle(20);
+            var circle = new createjs.Shape();
+            circle.graphics.setStrokeStyle(20);
             //circle.graphics.beginStroke("#113355");
-            shape.graphics.beginStroke(this.srcEl.css("background-color"));
-            shape.graphics.drawCircle(this.trgCentreX, this.trgCentreY, (i + 1) * 9);
-            //circle.graphics.drawRect(this.trgCentreX, this.trgCentreY, (i + 1) * 9, (i + 1) * 9)
-            shape.alpha = 0.5 - (i * 0.02);
-            shape.x = Math.random() * 300;
-            shape.y = Math.random() * 300;
-            shape.compositeOperation = "lighter";
+            circle.graphics.beginStroke(this.srcEl.css("background-color"));
+            //circle.graphics.drawCircle(this.trgCentreX, this.trgCentreY, (i + 1) * 9);
+            circle.graphics.drawRect(this.trgCentreX, this.trgCentreY, (i + 1) * 9, (i + 1) * 9)
+            circle.alpha = 0.5 - (i * 0.02);
+            circle.x = Math.random() * 300;
+            circle.y = Math.random() * 300;
+            circle.compositeOperation = "lighter";
     
-            var tween = createjs.Tween.get(shape)
+            var tween = createjs.Tween.get(circle)
             .to({x: this.srcCentreXRel, y: this.srcCentreYRel}, (0.5 + i * 0.04) * 2000, createjs.Ease.bounceOut)
             .wait(100)
             //.to({alpha: 0})
             .call(this.tweenComplete)
             .addEventListener("complete", this.completed);
            
-            tweens.push({tween: tween, ref: shape});
-            stage.addChild(shape);
+            tweens.push({tween: tween, ref: circle});
+            stage.addChild(circle);
         }
         activeCount = circleCount;
         theSrcElement = this.srcEl;
