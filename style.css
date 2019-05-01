@@ -44,12 +44,16 @@ canvas {
 
 .dot {
   z-index: 1;
-  position: absolute;
+  position: fixed;
   text-align: center;
   display: inline-block;
   border-radius: 3%;
-  height: 100px;
-  width: 150px;
+  height: 15%;
+  width: 20%;
+  min-width: 160px;
+  min-height: 120px;
+  /*height: 100px;
+  width: 150px;*/
   cursor: pointer;
   /*opacity: 0.5;*/
   background-color:#efefef; /*rgb(191, 208, 219);*/
@@ -71,7 +75,6 @@ canvas {
   -webkit-transition: border 2s; /* For Safari 3.1 to 6.0 */
   transition: border 2s;
 }
-
 
 #palma {
   top: 10%;
@@ -114,7 +117,7 @@ canvas {
 }
 
 #eam {
-  top: 50px;
+  top: 5%;
   right: 10%;
   font-family: 'Open Sans', 'sans-serif'; /*'Roboto Mono', monospace;*/
   font-size: x-large;
@@ -154,7 +157,7 @@ canvas {
 }
 
 #btb {
-  top: 300px;
+  top: 40%;
   right: 2%;
   font-size: 240%;
   font-family: "Libre Barcode 39 Text";
@@ -162,27 +165,23 @@ canvas {
 }
 
 #coinrattler {
-  top: 500px;
-  right: 8%;
+  top: 70%;
+  right: 5%;
   font-family: "BadGuyLuck";
   font-size: 140%;
 }
 
 #imgContainer {
   z-index: 0;
-  position: absolute;
-  top: 100px;
-  left: 0px;
+  position: fixed;
   display: block;
   width: 100%;
-  /*background-color: green;*/
   text-align: center;
 }
 
 #imgContainer > img {
   text-align: center;
-  position: absolute;
-  left: 0;
+  position: fixed;
   -webkit-transition: opacity 1s ease-in-out;
   -moz-transition: opacity 1s ease-in-out;
   -o-transition: opacity 1s ease-in-out;
@@ -194,26 +193,6 @@ canvas {
 
 #imgContainer > img:hover{
   font-size: xx-small;
-}
-
-#imgContainer > img.opaque {
-  opacity: 1;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-  filter: alpha(opacity=1);
-}
-
-#imgContainer > img {
-  border: 0px solid silver;
-  width: 200px;
-  height: 200px;
-  text-align: center;
-  -webkit-transition: opacity 1s ease-in-out;
-  -moz-transition: opacity 1s ease-in-out;
-  -o-transition: opacity 1s ease-in-out;
-  transition: opacity 1s ease-in-out;
-  opacity: 0;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-  filter: alpha(opacity=0);
 }
 
 #imgContainer > img.opaque {

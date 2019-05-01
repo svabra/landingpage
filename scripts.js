@@ -58,14 +58,11 @@ function Flare(srcEl, trgEl) {
         for (var i = 0; i < circleCount; i++) {
             // draw the circle, and put it on stage:
             var circle = new createjs.Shape();
-            console.log(this.squareSize);
             var ranSquareSize = parseInt(Math.random() * squareSize);
             circle.graphics.setStrokeStyle(1);
             //circle.graphics.beginStroke("#113355");
             //circle.graphics.beginStroke(this.srcEl.css("background-color"));
             //circle.graphics.drawCircle(this.trgCentreX, this.trgCentreY, (i + 1) * 9);
-            //console.log( this.srcEl.css("background-color"));
-            //circle.graphics.beginFill(this.srcEl.css("background-color"));
             circle.graphics.beginFill(this.getColor(i));
             circle.graphics.drawRect(this.trgCentreX, this.trgCentreY, ranSquareSize, ranSquareSize);
             circle.alpha = 0.2; //- (i * 0.02);
@@ -111,10 +108,6 @@ function Flare(srcEl, trgEl) {
     }
 }
 
-window.addEventListener('resize', function (event) {
-    // UPDATE THE DRAWINGS AND POSITIONINGS
-    fitAll();
-});
 
 function clearCanvas(){
     const canvas = document.getElementById("myCanvas");
@@ -123,9 +116,10 @@ function clearCanvas(){
 }
 
 function fitAll(){
-    fitTheSwan();
-    fitTheBubbles();
-    fitCanvasAndDrawings();    
+    console.log("FIT ALL CALLED");
+    fitCanvasAndDrawings();  
+    fitTheTopicTag();
+    fitTheSwan();          
 }
 
 function fitCanvasAndDrawings(){
@@ -134,27 +128,105 @@ function fitCanvasAndDrawings(){
     canvas.height = document.documentElement.clientHeight 
 }
 
-function fitTheBubbles(){
-    var c = document.getElementById("myCanvas");
+function fitTheTopicTag(){
+    // only fit the bubbles/tags, if it's portrait mode
+    // put them into an array
+    console.log(screen.orientation.type);
+
+    if(isPortraitMode()){
+        console.log("render topic tags in portrait mode");
+        // render the tags
+        let nextPos = 80;
+        let boxHeight = 150;
+
+        $("#controls > .dot").each(function () { 
+            $(this).css({top: nextPos, left: 10});
+            nextPos += 200;            
+         });
+    } else {
+        //static reset
+        $("#palma").css({
+            top: '10%',
+            left: '5%',  
+        })
+
+        $('#eam').css({
+            top: '5%',
+            left: '',
+            right: '5%'
+        })
+
+        $('#btb').css({
+            top: '40%',
+            left: '',
+            right: '2%'
+        })
+
+        $('#coinrattler').css({
+            top: '70%',
+            left: '',
+            right: '5%'
+        })
+    }
 }
 
 // Position and resize the Svan images
 function fitTheSwan() {
-    // resize the canvas area;    
-    const ORIGINAL_SIZE = 400;
-    const PERCENTAGE_OF_SCREEN = 0.6;
-    var adaptedSize = $("body").innerWidth() * PERCENTAGE_OF_SCREEN;
-    $("#imgContainer, #imgContainer > img").css({
-        width: adaptedSize,
-        height: adaptedSize
-    });
-    //alert(adaptedSize);
 
-    // POSITION THE SVAN
-    var x = ($("body").innerWidth() / 2) - ($("#imgContainer>img").eq(0).width() / 2);
-    $("#imgContainer").css({
-        left: x
-    });
+    if(isPortraitMode()){
+        // resize the svan area 
+        $("#imgContainer, #imgContainer > img").css({
+            position: 'fixed',            
+        });
+
+        // position the svan next to the tag
+        $("#controls > .dot").each(function () { 
+            let imgIdx = $(this).index() + 1;
+            let ctrPosTop = $(this).position().top;
+            let ctrPosLeft = $(this).position().left;
+
+            // compute the image width
+            let leftStart = parseInt(ctrPosLeft + $(this).width() + (window.innerWidth * 0.1));
+            console.log("ctrl top pos: " + ctrPosTop + ", ctrl left pos: " + ctrPosLeft);
+
+            let svanWidth =  window.innerWidth - (leftStart + (window.innerWidth * 0.05));
+            console.log("svanWidth: " + svanWidth);
+            let tag = $("#imgContainer > img").eq(imgIdx).css({
+                position: 'fixed',
+                top: ctrPosTop + 'px',
+                left: leftStart + 'px',
+                width: svanWidth + 'px',
+                height: svanWidth + 'px'
+            });                      
+         });
+    }
+    else {
+        // resize the svan area;    
+        let adaptedSize = window.innerWidth * 0.4;
+        if(adaptedSize > window.innerHeight) {
+            adaptedSize = window.innerWidth * 0.9;
+        }
+
+        let adaptedTop = (window.innerHeight / 2) - (adaptedSize / 2);
+        
+        var x = ($("body").innerWidth() / 2) - (adaptedSize / 2);
+        $("#imgContainer, #imgContainer > img").css({
+            width: adaptedSize,
+            height: adaptedSize,
+            left: x,
+            top: adaptedTop
+        });
+
+    }
+}
+
+function isPortraitMode(){
+    if(screen.orientation.type.includes("portrait"))
+        return true;
+    if(window.innerHeight > window.innerWidth)
+        return true;
+    else
+        return false;
 }
 
 ///////////// INVOCATIONS CODE //////////////////
@@ -185,6 +257,17 @@ $(document).ready(function () {
     });
 
     fitAll();
+
+    // Update the drawings on signifficant change
+
+    window.addEventListener('resize', function (event) {
+        fitAll();
+    });
+
+    screen.orientation.addEventListener('change', function() {
+        console.log('new orientation is ', screen.orientation.type);
+        fitAll();
+    });
 
 });
 
