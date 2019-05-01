@@ -116,7 +116,6 @@ function clearCanvas(){
 }
 
 function fitAll(){
-    console.log("FIT ALL CALLED");
     fitCanvasAndDrawings();  
     fitTheTopicTag();
     fitTheSwan();          
@@ -131,7 +130,6 @@ function fitCanvasAndDrawings(){
 function fitTheTopicTag(){
     // only fit the bubbles/tags, if it's portrait mode
     // put them into an array
-    console.log(screen.orientation.type);
 
     if(isPortraitMode()){
         console.log("render topic tags in portrait mode");
@@ -140,7 +138,13 @@ function fitTheTopicTag(){
         let boxHeight = 150;
 
         $("#controls > .dot").each(function () { 
-            $(this).css({top: nextPos, left: 10});
+            $(this).css({
+                top: nextPos,
+                left: 20,
+                width: '20%',
+                height: '15%'
+
+            });
             nextPos += 200;            
          });
     } else {
@@ -172,6 +176,7 @@ function fitTheTopicTag(){
 
 // Position and resize the Svan images
 function fitTheSwan() {
+    const DEFAULT_BORDER_SIZE = 20;
 
     if(isPortraitMode()){
         // resize the svan area 
@@ -179,18 +184,30 @@ function fitTheSwan() {
             position: 'fixed',            
         });
 
-        // position the svan next to the tag
+        let adaptedSize;
+        let adaptedTop;
+
+        // position the svans next to the tag
         $("#controls > .dot").each(function () { 
             let imgIdx = $(this).index() + 1;
             let ctrPosTop = $(this).position().top;
             let ctrPosLeft = $(this).position().left;
 
             // compute the image width
-            let leftStart = parseInt(ctrPosLeft + $(this).width() + (window.innerWidth * 0.1));
-            console.log("ctrl top pos: " + ctrPosTop + ", ctrl left pos: " + ctrPosLeft);
+            let leftStart = parseInt(ctrPosLeft + $(this).width() + (window.innerWidth * 0.1) + DEFAULT_BORDER_SIZE);
+            let svanWidth =  window.innerWidth - (leftStart  + (window.innerWidth * 0.05));
 
-            let svanWidth =  window.innerWidth - (leftStart + (window.innerWidth * 0.05));
-            console.log("svanWidth: " + svanWidth);
+            // compute the image top pos;
+            let centreCtrY = ctrPosTop + ($(this).height() / 2);
+            let centreImgY = ctrPosTop + (svanWidth / 2);
+            let delta = (centreImgY - centreCtrY);
+            if((ctrPosTop - delta) < 0){
+                ctrPosTop = 0;
+                console.log("set to 0: " + ctrPosTop + ": " + delta);
+            }else
+                ctrPosTop -= delta;
+            
+
             let tag = $("#imgContainer > img").eq(imgIdx).css({
                 position: 'fixed',
                 top: ctrPosTop + 'px',
@@ -199,16 +216,29 @@ function fitTheSwan() {
                 height: svanWidth + 'px'
             });                      
          });
+
+         // fit the black svan
+         let refEl = $(".dot").first();
+         let ctrPosLeft = refEl.position().left;
+
+         // compute the black svan width
+         let leftStart = parseInt(ctrPosLeft + refEl.width() + (window.innerWidth * 0.1));
+         let svanWidth =  window.innerWidth - (leftStart + (window.innerWidth * 0.05));
+        $("#imgContainer > img").first().css({
+            width: svanWidth,
+            height: svanWidth,
+            left: leftStart,
+            top: '0px',
+         });
     }
     else {
         // resize the svan area;    
-        let adaptedSize = window.innerWidth * 0.4;
+        adaptedSize = window.innerWidth * 0.6;
         if(adaptedSize > window.innerHeight) {
-            adaptedSize = window.innerWidth * 0.9;
+            adaptedSize = window.innerHeight * 1.1;
         }
 
-        let adaptedTop = (window.innerHeight / 2) - (adaptedSize / 2);
-        
+        adaptedTop = (window.innerHeight / 2) - (adaptedSize / 2);        
         var x = ($("body").innerWidth() / 2) - (adaptedSize / 2);
         $("#imgContainer, #imgContainer > img").css({
             width: adaptedSize,
@@ -265,7 +295,6 @@ $(document).ready(function () {
     });
 
     screen.orientation.addEventListener('change', function() {
-        console.log('new orientation is ', screen.orientation.type);
         fitAll();
     });
 
