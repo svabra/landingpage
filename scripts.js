@@ -10,9 +10,10 @@ function Flare(srcEl, trgEl) {
     var stage;
     var tweens;
     var activeCount;
-    var circleCount = 20;
+    var circleCount = 30;
+    var squareSize = 20;
     //var colors = ["BlueViolet", "MediumSeaGreen", "Tomato", "DarkTurquoise", "DeepSkyBlue"];
-    var colors = ["CornflowerBlue", "DodgerBlue", "DeepSkyBlue", "LightSkyBlue", "LightBlue"];
+    var colors = ["SteelBlue", "Gainsboro", "DeepSkyBlue", "LightSkyBlue", "LightBlue"];
 
     this.getColor = function (i){
         return colors[i % colors.length];
@@ -28,8 +29,19 @@ function Flare(srcEl, trgEl) {
         // set the center points of the srcEl and trgEl;
         this.trgCentreX = this.trgEl.position().left + (this.trgEl.width() / 2);
         this.trgCentreY = this.trgEl.position().top + (this.trgEl.height() / 2);
-        this.srcCentreXRel = (this.srcEl.position().left - this.trgCentreX) + (this.srcEl.width() / 2);
-        this.srcCentreYRel = (this.srcEl.position().top - this.trgCentreY) + (this.srcEl.height() / 2);
+        
+        // if the trail leads west, you need to add some extra pixels to show the bound effect better.
+        // For east you need to subtract the maximum square size.
+
+        let xCorrSize = (this.srcEl.width() / 2)
+        let xShift = (this.srcEl.position().left - this.trgCentreX);
+        let xBoxCorrection = (xShift > 0) ? (xCorrSize * -1) + squareSize : (xCorrSize * 1) - squareSize;
+        this.srcCentreXRel =  xShift + (this.srcEl.width() / 2) + xBoxCorrection;
+
+        let yCorrSize = (this.srcEl.height() / 2)
+        let yShift = (this.srcEl.position().top - this.trgCentreY);
+        let yBoxCorrection = (yShift > 0) ? yCorrSize * -1 : yCorrSize * 1;
+        this.srcCentreYRel = yShift + (this.srcEl.height() / 2) + yBoxCorrection;
 
         this.initFlare();
     }
@@ -46,12 +58,8 @@ function Flare(srcEl, trgEl) {
         for (var i = 0; i < circleCount; i++) {
             // draw the circle, and put it on stage:
             var circle = new createjs.Shape();
-            var isZero = (parseInt(Math.random() * 10) % 2 == 0);
-            //console.log(isZero);
-            var h = isZero?20: 20;
-            var w = isZero?10: 1;
-            
-            var squarSize = parseInt(Math.random() * 50);
+            console.log(this.squareSize);
+            var ranSquareSize = parseInt(Math.random() * squareSize);
             circle.graphics.setStrokeStyle(1);
             //circle.graphics.beginStroke("#113355");
             //circle.graphics.beginStroke(this.srcEl.css("background-color"));
@@ -59,11 +67,12 @@ function Flare(srcEl, trgEl) {
             //console.log( this.srcEl.css("background-color"));
             //circle.graphics.beginFill(this.srcEl.css("background-color"));
             circle.graphics.beginFill(this.getColor(i));
-            circle.graphics.drawRect(this.trgCentreX, this.trgCentreY, squarSize, squarSize);
+            circle.graphics.drawRect(this.trgCentreX, this.trgCentreY, ranSquareSize, ranSquareSize);
             circle.alpha = 0.2; //- (i * 0.02);
-            circle.x = Math.random() * 700;
-            circle.y = Math.random() * 700;
+            circle.x = this.getScatterCord(100);
+            circle.y = this.getScatterCord(100);
             circle.compositeOperation = "lighter";
+            //console.log(this.srcCentreXRel + " " + this.srcCentreYRel);
     
             var tween = createjs.Tween.get(circle)
             .to({x: this.srcCentreXRel, y: this.srcCentreYRel}, (0.5 + i * 0.04) * 3000, createjs.Ease.bounceOut)
@@ -79,6 +88,13 @@ function Flare(srcEl, trgEl) {
         theSrcElement = this.srcEl;
     
         createjs.Ticker.addEventListener("tick", this.tick);
+    }
+
+    this.getScatterCord = function (scatterRadius){
+
+        let ranInti = parseInt(Math.random() * 10);
+        let newScattCord = (ranInti % 2 == 0) ? scatterRadius * -1 : scatterRadius * 1;
+        return newScattCord;
     }
 
     this.completed = function(event){
