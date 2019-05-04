@@ -10,8 +10,8 @@ function Flare(srcEl, trgEl) {
     var stage;
     var tweens;
     var activeCount;
-    var circleCount = 30;
-    var squareSize = 20;
+    var circleCount = 20;
+    var squareSize = 30;
     //var colors = ["BlueViolet", "MediumSeaGreen", "Tomato", "DarkTurquoise", "DeepSkyBlue"];
     var colors = ["SteelBlue", "Gainsboro", "DeepSkyBlue", "LightSkyBlue", "LightBlue"];
 
@@ -64,15 +64,16 @@ function Flare(srcEl, trgEl) {
             //circle.graphics.beginStroke(this.srcEl.css("background-color"));
             //circle.graphics.drawCircle(this.trgCentreX, this.trgCentreY, (i + 1) * 9);
             circle.graphics.beginFill(this.getColor(i));
-            circle.graphics.drawRect(this.trgCentreX, this.trgCentreY, ranSquareSize, ranSquareSize);
+            circle.graphics.drawCircle(this.trgCentreX, this.trgCentreY, ranSquareSize);
+            //circle.graphics.drawRect(this.trgCentreX, this.trgCentreY, ranSquareSize, ranSquareSize);
             circle.alpha = 0.2; //- (i * 0.02);
-            circle.x = this.getScatterCord(100);
-            circle.y = this.getScatterCord(100);
+            circle.x = this.getScatterCord(150);
+            circle.y = this.getScatterCord(150);
             circle.compositeOperation = "lighter";
             //console.log(this.srcCentreXRel + " " + this.srcCentreYRel);
     
             var tween = createjs.Tween.get(circle)
-            .to({x: this.srcCentreXRel, y: this.srcCentreYRel}, (0.5 + i * 0.04) * 3000, createjs.Ease.bounceOut)
+            .to({x: this.srcCentreXRel, y: this.srcCentreYRel}, (0.5 + i * 0.04) * 5000, createjs.Ease.bounceOut)
             .wait(100)
             //.to({alpha: 0})
             .call(this.tweenComplete)
@@ -272,7 +273,7 @@ $(document).ready(function () {
         //$("#controls>.dot").eq(imageIdx).addClass("hover")
 
         // start the flare
-        var svanImg = $("#imgContainer");
+        var svanImg = $("#imgContainer>img").eq(imageIdx);
         var flare = new Flare($(this), svanImg );
         flare.draw();
 
