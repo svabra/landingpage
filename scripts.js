@@ -109,16 +109,15 @@ function Flare(srcEl, trgEl) {
     }
 }
 
-
 function clearCanvas(){
     const canvas = document.getElementById("myCanvas");
     const context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-function fitAll(){
-    fitCanvasAndDrawings();  
+function fitAll(){  
     fitTheTopicTag();
+    fitCanvasAndDrawings();
     fitTheSwan();          
 }
 
@@ -136,18 +135,19 @@ function fitTheTopicTag(){
         console.log("render topic tags in portrait mode");
         // render the tags
         let nextPos = 80;
-        let boxHeight = 150;
 
         $("#controls > .dot").each(function () { 
             $(this).css({
                 top: nextPos,
-                left: 20,
+                left: -5,
                 width: '20%',
                 height: '15%'
 
             });
             nextPos += 200;            
          });
+
+         
     } else {
         //static reset
         $("#palma").css({

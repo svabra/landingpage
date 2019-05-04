@@ -21,6 +21,7 @@ body {
   padding: 0px;
   margin: 0px;
   font-family: Helvetica;
+  max-height: 100%;
 }
 
 header {
@@ -35,16 +36,18 @@ header>img {
   padding: 10px;
 }
 
+
 canvas {
   position: fixed;
   left: 0px;
   top: 0px;
   z-index: 0;
+  
 }
 
 .dot {
   z-index: 1;
-  position: fixed;
+  position: absolute;
   text-align: center;
   display: inline-block;
   border-radius: 3%;
