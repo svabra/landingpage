@@ -251,8 +251,11 @@ function fitTheSwan() {
     }
 }
 
+// indicates portrait mode or a mode where vertical space is just too narrow.
 function isPortraitMode(){
     if(screen.orientation.type.includes("portrait"))
+        return true;
+    if(window.innerHeight < 800)
         return true;
     if(window.innerHeight > window.innerWidth)
         return true;
@@ -268,8 +271,7 @@ $(document).ready(function () {
     });
 
     $("#controls").on('mouseover', 'div', function (event) {
-        console.log("mouseover fired: " + event.type);
-
+    
         $("#imgContainer img").removeClass("opaque");
         var imageIdx = $(this).index() + 1;
         $("#imgContainer img").eq(imageIdx).addClass("opaque");
@@ -279,18 +281,12 @@ $(document).ready(function () {
         var flare = new Flare($(this), svanImg );
         flare.draw();
 
-        // add link to topic tag
-        /*
-        $( "#palma" ).delay(1000).wrap( "<a href='http://www.brayan.com/ccms/'></a>" );
-        $( "#eam" ).delay(1000).wrap( "<a href=''></a>" );
-        $( "#btb" ).delay(1000).wrap( "<a href='http://www.brayan.com/wp/'></a>" );
-        $( "#coinrattler" ).delay(1000).wrap( "<a href='http://www.brayan.com/coinrattler/'></a>" );
-        */
+        $(".dot>a").delay(500).css({"pointer-events" : "all"});
+
     });
 
     $("#controls").on('mouseout', 'div', function () {
-        // remove links of every topic tag
-        /*$(".dot").unwrap();*/
+        $(".dot>a").css({"pointer-events" : "none"});
 
         $("#imgContainer > img").removeClass("opaque");
         $("#imgContainer > img").eq(0).addClass("opaque");
