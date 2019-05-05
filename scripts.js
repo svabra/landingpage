@@ -263,28 +263,39 @@ function isPortraitMode(){
 ///////////// INVOCATIONS CODE //////////////////
 $(document).ready(function () {
 
-    $("#controls").on('mouseover', 'div', function () {
-        $("#imgContainer>img").removeClass("opaque");
-        var imageIdx = $(this).index() + 1;
-        $("#imgContainer>img").eq(imageIdx).addClass("opaque")
+    $("#controls").on('touchend', 'div', function (event) {
+        console.log("touchend fired: " + event.type);
+    });
 
-        //$("#imgContainer>img").removeClass("opaque");
-        //var imageIdx = $(this).index();
-        //$("#controls>.dot").eq(imageIdx).addClass("hover")
+    $("#controls").on('mouseover', 'div', function (event) {
+        console.log("mouseover fired: " + event.type);
+
+        $("#imgContainer img").removeClass("opaque");
+        var imageIdx = $(this).index() + 1;
+        $("#imgContainer img").eq(imageIdx).addClass("opaque");
 
         // start the flare
         var svanImg = $("#imgContainer>img").eq(imageIdx);
         var flare = new Flare($(this), svanImg );
         flare.draw();
 
+        // add link to topic tag
+        /*
+        $( "#palma" ).delay(1000).wrap( "<a href='http://www.brayan.com/ccms/'></a>" );
+        $( "#eam" ).delay(1000).wrap( "<a href=''></a>" );
+        $( "#btb" ).delay(1000).wrap( "<a href='http://www.brayan.com/wp/'></a>" );
+        $( "#coinrattler" ).delay(1000).wrap( "<a href='http://www.brayan.com/coinrattler/'></a>" );
+        */
     });
 
     $("#controls").on('mouseout', 'div', function () {
+        // remove links of every topic tag
+        /*$(".dot").unwrap();*/
+
         $("#imgContainer > img").removeClass("opaque");
         $("#imgContainer > img").eq(0).addClass("opaque");
-
-        //$("#controls>.dot").removeClass("hover")
-        clearCanvas();       
+        clearCanvas();              
+        
     });
 
     fitAll();

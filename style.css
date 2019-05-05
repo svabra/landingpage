@@ -36,13 +36,11 @@ header>img {
   padding: 10px;
 }
 
-
 canvas {
   position: fixed;
   left: 0px;
   top: 0px;
-  z-index: 0;
-  
+  z-index: 0;  
 }
 
 .dot {
@@ -55,28 +53,54 @@ canvas {
   width: 20%;
   min-width: 160px;
   min-height: 120px;
-  /*height: 100px;
-  width: 150px;*/
   cursor: pointer;
-  /*opacity: 0.5;*/
   background-color:#efefef; /*rgb(191, 208, 219);*/
   padding: 10px;
   vertical-align: middle;
-  border: 20px solid white;
+  border: 0px solid white;
   box-sizing: content-box;
   -webkit-transition: border 2s; /* For Safari 3.1 to 6.0 */
   transition: border 2s;
 }
 
+.dot>p {
+  padding: 0px;
+  margin: 0px;
+  padding-top: 15px;
+}
+
 .dot:hover{
-  /*opacity: 1;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-  filter: alpha(opacity=1);
-  background-color:  rgb(191, 208, 219);*/
-  /*background-image: linear-gradient(to bottom right, rgb(191, 208, 219), #efefef);*/
+  font-weight: normal;
+  font-size: normal;
   border: 20px solid #efefef; 
-  -webkit-transition: border 2s; /* For Safari 3.1 to 6.0 */
-  transition: border 2s;
+  -webkit-transition: border 2s, font-size 1s, font-weight 1s;  /* For Safari 3.1 to 6.0 */
+  transition: border 2s, font-size 1s, font-weight 1s;
+  transition-delay: 0s;
+}
+
+.dot:hover>p {
+  font-weight: normal;
+  font-size: normal;
+  -webkit-transition: border 2s, font-size 1s, font-weight 1s;  /* For Safari 3.1 to 6.0 */
+  transition: border 2s, font-size 1s, font-weight 1s;
+  transition-delay: 0s;
+}
+
+
+.dot > div {
+  position: absolute;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: medium;
+  font-weight: normal;
+  text-align: center;
+  opacity: 0;
+}
+
+.dot:hover > div {
+  opacity: 1; 
+  -webkit-transition:  opacity 1s; 
+  transition: opacity 1s;
+  transition-delay: 0.5s;
 }
 
 #palma {
@@ -85,38 +109,19 @@ canvas {
   font-size: 210%;
   font-family: "DiamondDust";
   font-weight: bold;
-  -webkit-transition:  font-size 2s, font-weight 2s, border 2s; /* For Safari 3.1 to 6.0 */
-  transition: font-size 2s, font-weight 2s, border 2s;
 }
 
 #palma:hover {
-  font-size: medium;
-  font-weight: normal;
+  font-size: large;  
 }
 
-#palma>div{
-  position: absolute;
+#palma>div{  
   left: 5%;
   right: 5%;
   top: 40%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: medium;
-  font-weight: normal;
-  opacity: 0;
-  text-align: center;
-  line-height: normal;
-  -webkit-transition:  opacity 1s; /* For Safari 3.1 to 6.0 */
-  transition: opacity 1s;
- 
 }
 
-#palma:hover>div {
-  font-size: medium;
-  opacity: 1;
-  text-align: center;
-  -webkit-transition:  opacity 2s; /* For Safari 3.1 to 6.0 */
-  transition: opacity 2s;
-  transition-delay: 1s;
+#palma:hover>div { 
 }
 
 #eam {
@@ -125,38 +130,20 @@ canvas {
   font-family: 'Open Sans', 'sans-serif'; /*'Roboto Mono', monospace;*/
   font-size: x-large;
   font-weight: bolder;
-  -webkit-transition:  font-size 2s, font-weight 2s, border 2s; /* For Safari 3.1 to 6.0 */
-  transition: font-size 2s, font-weight 2s, border 2s;
 }
 
 #eam:hover {
-  font-size: small;
-  font-weight: normal;
+  font-size: large;
 }
 
 #eam>div{
-  position: absolute;
   left: 5%;
   right: 5%;
-  top: 40%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: medium;
-  font-weight: normal;
-  opacity: 0;
-  text-align: center;
-  line-height: normal;
-  -webkit-transition:  opacity 1s; /* For Safari 3.1 to 6.0 */
-  transition: opacity 1s;
- 
+  top: 40%; 
 }
 
-#eam:hover>div {
-  font-size: medium;
-  opacity: 1;
-  text-align: center;
-  -webkit-transition:  opacity 2s; /* For Safari 3.1 to 6.0 */
-  transition: opacity 2s;
-  transition-delay: 1s;
+#eam:hover>div { 
+  top: 50%;
 }
 
 #btb {
@@ -167,11 +154,27 @@ canvas {
   font-weight: normal;
 }
 
+#btb:hover {
+  font-size: 150%;   
+}
+
+#btb:hover>div{
+  top: 40%;
+}
+
 #coinrattler {
   top: 70%;
   right: 5%;
   font-family: "BadGuyLuck";
   font-size: 140%;
+}
+
+#coinrattler:hover{
+  font-size: small;
+}
+
+#coinrattler:hover>div{
+  top: 40%;
 }
 
 #imgContainer {
