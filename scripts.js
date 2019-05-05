@@ -132,7 +132,6 @@ function fitTheTopicTag(){
     // put them into an array
 
     if(isPortraitMode()){
-        console.log("render topic tags in portrait mode");
         // render the tags
         let nextPos = 80;
 
@@ -266,11 +265,16 @@ function isPortraitMode(){
 ///////////// INVOCATIONS CODE //////////////////
 $(document).ready(function () {
 
-    $("#controls").on('touchend', 'div', function (event) {
-        console.log("touchend fired: " + event.type);
+    $("#controls").on('touchstart', 'div', function (event) {
+        console.log(event.type + " fired.");
     });
 
-    $("#controls").on('mouseover', 'div', function (event) {
+    $("#controls").on('touchend', 'div', function (event) {        
+        console.log(event.type + " fired");
+        
+    });
+
+    $("#controls").on('mouseover', '>div', function (event) {
     
         $("#imgContainer img").removeClass("opaque");
         var imageIdx = $(this).index() + 1;
@@ -281,17 +285,25 @@ $(document).ready(function () {
         var flare = new Flare($(this), svanImg );
         flare.draw();
 
-        $(".dot>a").delay(500).css({"pointer-events" : "all"});
+        $(this)
+        .delay(1000)
+        .queue( function(next){ 
+          $(this).find("a").first().css({ "pointer-events": "all"});
+          next(); 
+        });
+
 
     });
 
-    $("#controls").on('mouseout', 'div', function () {
-        $(".dot>a").css({"pointer-events" : "none"});
+    $(".dot").on('mouseout', ">a", function (event) {
+        console.log(event.type + " triggered while over dot");
+        $(this).css({ "pointer-events": "none"});
+    });
 
+    $("#controls").on('mouseout', '>div', function (event) {
         $("#imgContainer > img").removeClass("opaque");
         $("#imgContainer > img").eq(0).addClass("opaque");
         clearCanvas();              
-        
     });
 
     fitAll();
