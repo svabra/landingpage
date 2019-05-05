@@ -291,8 +291,6 @@ $(document).ready(function () {
           $(this).find("a").first().css({ "pointer-events": "all"});
           next(); 
         });
-
-
     });
 
     $(".dot").on('mouseout', ">a", function (event) {

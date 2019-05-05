@@ -67,7 +67,7 @@ canvas {
   vertical-align: middle;
   border: 0px solid white;
   box-sizing: content-box;
-  -webkit-transition: border 5s, font-size 5s, font-weight 5s;  /* For Safari 3.1 to 6.0 */
+  -webkit-transition: border 3s, font-size 5s, font-weight 5s;  /* For Safari 3.1 to 6.0 */
   transition: border 5s, font-size 5s, font-weight 5s;
   transition-delay: 0s;
 }
@@ -132,10 +132,6 @@ canvas {
   right: 5%;
   top: 40%;
 }
-
-#palma:hover>a>div { 
-}
-
 #eam {
   top: 5%;
   right: 10%;
