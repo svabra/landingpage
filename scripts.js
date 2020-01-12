@@ -132,10 +132,10 @@ function fitTheTopicTag(){
     // put them into an array
 
     if(isPortraitMode()){
-        // render the tags
+        // vertical positioning
         let nextPos = 80;
 
-        $("#controls > .dot").each(function () { 
+        $("#controls .dot").each(function () { 
             $(this).css({
                 top: nextPos,
                 left: -5,
@@ -148,7 +148,7 @@ function fitTheTopicTag(){
 
          
     } else {
-        //static reset
+        //static positioning
         $("#palma").css({
             top: '10%',
             left: '5%',  
@@ -187,9 +187,12 @@ function fitTheSwan() {
         let adaptedSize;
         let adaptedTop;
 
+        let i = 0;
+
         // position the svans next to the tag
-        $("#controls > .dot").each(function () { 
+        $("#controls > a > .dot").each(function () { 
             let imgIdx = $(this).index() + 1;
+            let i 
             let ctrPosTop = $(this).position().top;
             let ctrPosLeft = $(this).position().left;
 
@@ -204,11 +207,15 @@ function fitTheSwan() {
             if((ctrPosTop - delta) < 0){
                 ctrPosTop = 0;
                 console.log("set to 0: " + ctrPosTop + ": " + delta);
-            }else
+            }else{
                 ctrPosTop -= delta;
+            }
             
+            console.log("top/left: " + ctrPosTop + "/" + ctrPosLeft + ", w/h:" + svanWidth + "/" + svanWidth);
 
-            let tag = $("#imgContainer > img").eq(imgIdx).css({
+            let svanImg = $("#imgContainer > img").eq(imgIdx);
+            console.log(imgIdx + " --> " + svanImg.attr("src"));
+            svanImg.css({
                 position: 'fixed',
                 top: ctrPosTop + 'px',
                 left: leftStart + 'px',
@@ -221,7 +228,7 @@ function fitTheSwan() {
          let refEl = $(".dot").first();
          let ctrPosLeft = refEl.position().left;
 
-         // compute the black svan width
+         // compute the main black svan width
          let leftStart = parseInt(ctrPosLeft + refEl.width() + (window.innerWidth * 0.1));
          let svanWidth =  window.innerWidth - (leftStart + (window.innerWidth * 0.05));
         $("#imgContainer > img").first().css({
@@ -270,11 +277,10 @@ $(document).ready(function () {
     });
 
     $("#controls").on('touchend', 'div', function (event) {        
-        console.log(event.type + " fired");
-        
+        console.log(event.type + " fired");        
     });
 
-    $("#controls").on('mouseover', '>div', function (event) {
+    $("#controls").on('mouseover', '>a', function (event) {
     
         $("#imgContainer img").removeClass("opaque");
         var imageIdx = $(this).index() + 1;
@@ -282,7 +288,7 @@ $(document).ready(function () {
 
         // start the flare
         var svanImg = $("#imgContainer>img").eq(imageIdx);
-        var flare = new Flare($(this), svanImg );
+        var flare = new Flare($(this).children().first(), svanImg );
         flare.draw();
 
         $(this)
@@ -293,15 +299,12 @@ $(document).ready(function () {
         });
     });
 
-    $(".dot").on('mouseout', ">a", function (event) {
-        console.log(event.type + " triggered while over dot");
-        $(this).css({ "pointer-events": "none"});
-    });
-
-    $("#controls").on('mouseout', '>div', function (event) {
+    $("#controls .dot").on('mouseout', function (event) {
+        //console.log("mouse out on controls ");
         $("#imgContainer > img").removeClass("opaque");
         $("#imgContainer > img").eq(0).addClass("opaque");
-        clearCanvas();              
+        clearCanvas();    
+        //$(this).parent().css({ "pointer-events": "none"});          
     });
 
     fitAll();
